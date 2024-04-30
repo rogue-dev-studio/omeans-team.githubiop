@@ -1,0 +1,102 @@
+---
+layout: page
+# The Create of posts.
+---
+
+{% include lang.html %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="text-center">Create a New Post</h1>
+            <form>
+                <label for="title_post">Title :</label>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="title_post" placeholder="Enter Title Post">
+                </div>
+                <div class="form-group">
+                    <label for="author_post">Author :</label>
+                    <select class="form-control" id="author_post">
+                        {% assign sorted_authors = site.data.authors | sort %}
+                        {% for author in sorted_authors %}
+                        <option value="{{ author[0] }}">{{ author[1].name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="markdownContent">Content Markdown :</label>
+                    <textarea class="form-control" id="markdownContent" placeholder="Enter markdown content here..."></textarea>
+                </div>
+                <button type="button" class="btn btn-primary btn-block" onclick="createMarkdownFile()">Create Markdown File</button>
+            </form>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        if ((window.location.hostname !== 'localhost')||(window.location.hostname !==  http://127.0.0.1:4000)) {
+            window.location.replace('{{ site.baseurl }}/');
+        }
+
+        function createMarkdownFile() {
+            var title_post = document.getElementById('title_post').value.replace(/\s+/g, '-');
+            if (!title_post) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'Please enter a title for your post!'
+                });
+                return;
+            }
+            var author_post = document.getElementById('author_post').value.replace(/\s+/g, '_');
+            var markdownContent = '---\nauthor: ' + author_post + '\n---\n' + document.getElementById('markdownContent').value;
+            var date = new Date();
+            var month = (date.getMonth() + 1).toString().padStart(2, '0');
+            var fileName = `${date.getFullYear()}-${month}-${date.getDate()}-${title_post}.md`;
+            var blob = new Blob([markdownContent], {type: 'text/markdown'});
+            saveAs(blob, fileName);
+        }
+
+        // This is a polyfill for the saveAs function, which is not supported in all browsers
+        function saveAs(blob, fileName) {
+            if (navigator.msSaveBlob) {
+                navigator.msSaveBlob(blob, fileName);
+            } else {
+                var link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = fileName;
+                link.click();
+            }
+        }
+        function saveAs(blob, fileName) {
+        if (navigator.msSaveBlob) {
+                navigator.msSaveBlob(blob, fileName);
+            } else {
+                var link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `{{ site.baseurl }}/posts/${fileName}`;
+                link.click();
+            }
+        }
+
+        function saveFileToDrive() {
+            var input = document.createElement('input');
+            input.type = 'file';
+            input.style.display = 'true';
+            input.onchange = function(event) {
+                var file = event.target.files[0];
+                var reader = new FileReader();
+                reader.onload = function(event) {
+                    var content = event.target.result;
+                    var blob = new Blob([content], {type: 'text/markdown'});
+                    var date = new Date();
+                    var month = (date.getMonth() + 1).toString().padStart(2, '0');
+                    var fileName = `${date.getFullYear()}-${month}-${date.getDate()}-${document.getElementById('title_post').value.replace(/\s+/g, '-')}.md`;
+                    saveAs(blob, fileName);
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+    </script>
