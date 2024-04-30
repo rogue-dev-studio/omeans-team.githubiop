@@ -11,6 +11,9 @@ title: Cek Directory
 <p>Creating directory and file...</p>
 
 <script>
+  if ((window.location.hostname != 'localhost')||(window.location.hostname !=  http://127.0.0.1:4000)) {
+      window.location.replace('{{ site.baseurl }}/');
+  }
   // Create directory and file using JavaScript (not recommended)
   // This approach is not recommended as it can be a security risk
   // and may not work as expected in all environments
