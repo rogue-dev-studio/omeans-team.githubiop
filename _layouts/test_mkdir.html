@@ -1,0 +1,26 @@
+---
+layout: page
+title: Cek Directory
+---
+
+{% include lang.html %}
+
+{% assign posts_dir = site.baseurl | append: '/_posts' %}
+{% assign file_path = posts_dir | append: '/file.md' %}
+
+<p>Creating directory and file...</p>
+
+<script>
+  // Create directory and file using JavaScript (not recommended)
+  // This approach is not recommended as it can be a security risk
+  // and may not work as expected in all environments
+  const fs = require('fs');
+  fs.mkdirSync('{{ posts_dir }}', { recursive: true });
+  fs.writeFileSync('{{ file_path }}', '');
+</script>
+
+<!-- Alternatively, you can use Jekyll's built-in functionality to create a new post -->
+<!-- This approach is recommended as it is more secure and reliable -->
+<p>Or, create a new post using Jekyll's built-in functionality...</p>
+
+<a href="{{ site.baseurl }}/posts/new">Create a new post</a>
