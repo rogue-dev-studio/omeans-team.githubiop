@@ -40,8 +40,22 @@ layout: page
         }
 
         function createMarkdownFile() {
-            var title_post = document.getElementById('title_post').value.replace(/\s+/g, '-');
-            if (!title_post) {
+            var date = new Date();
+            var dateWZero = (date.getDate() + 1).toString().padStart(2, '0');
+            var month = (date.getMonth() + 1).toString().padStart(2, '0');
+            var currentTime = "{{ 'now' | date: '%H:%M:%S' }}";
+            const timezoneOffset = date.getTimezoneOffset();
+            const timezoneOffsetHours = Math.abs(timezoneOffset / 60);
+            const timezoneOffsetMinutes = Math.abs(timezoneOffset % 60);
+            const timezoneOffsetSign = timezoneOffset > 0? "-" : "+";
+            const timezoneOffsetFormatted = timezoneOffsetSign + timezoneOffsetHours.toString().padStart(2, "0") + timezoneOffsetMinutes.toString().padStart(2, "0");
+
+            //console.log(timezoneOffsetFormatted); // Output: "+07:00"
+
+
+            //ISI CONTENT START
+            var title_postContent = document.getElementById('title_post').value;
+            if (!title_postContent) {
                 Swal.fire({
                   icon: 'error',
                   title: 'Oops...',
@@ -49,11 +63,15 @@ layout: page
                 });
                 return;
             }
+            var fullDateContent = `${date.getFullYear()}-${month}-${dateWZero} ${currentTime} ${timezoneOffsetFormatted}`;
+            var fileNameContent = `${date.getFullYear()}-${month}-${date.getDate()}-${title_postContent}.md`;
             var author_post = document.getElementById('author_post').value.replace(/\s+/g, '_');
-            var markdownContent = '---\nauthor: ' + author_post + '\n---\n' + document.getElementById('markdownContent').value;
-            var date = new Date();
-            var month = (date.getMonth() + 1).toString().padStart(2, '0');
-            var fileName = `${date.getFullYear()}-${month}-${date.getDate()}-${title_post}.md`;
+            var markdownContent = '---\n title: "' + title_postContent + '"\n date: ' + fullDateContent  + '\n author: ' + author_post + '\n ---\n' + document.getElementById('markdownContent').value;
+            //ISI CONTENT END
+
+            
+            var title_post = document.getElementById('title_post').value.replace(/\s+/g, '-');
+            var fileName = `${date.getFullYear()}-${month}-${dateWZero}-${title_post.toLowerCase()}.md`;
             var blob = new Blob([markdownContent], {type: 'text/markdown'});
             saveAs(blob, fileName);
         }
@@ -64,11 +82,10 @@ layout: page
             } else {
                 var link = document.createElement('a');
                 link.href = URL.createObjectURL(blob);
-                link.download = `{{ site.baseurl }}/posts/${fileName}`;
+                link.download = `${fileName}`;
                 link.click();
             }
         }
-
         function saveFileToDrive() {
             var input = document.createElement('input');
             input.type = 'file';
@@ -80,9 +97,10 @@ layout: page
                     var content = event.target.result;
                     var blob = new Blob([content], {type: 'text/markdown'});
                     var date = new Date();
+                    var dateWZero = (date.getDate() + 1).toString().padStart(2, '0');
                     var month = (date.getMonth() + 1).toString().padStart(2, '0');
-                    var fileName = `${date.getFullYear()}-${month}-${date.getDate()}-${document.getElementById('title_post').value.replace(/\s+/g, '-')}.md`;
-                    saveAs(blob, fileName);
+                    var fileName = `${date.getFullYear()}-${month}-${dateWZero}-${title_post | downcase}.md`;
+                    saveAs(blob, fileName.toLowerCase());
                 };
                 reader.readAsText(file);
             };

@@ -4,7 +4,7 @@ title:  "Loading animation nine block"
 date:   2024-02-10 09:00:00 +0700
 author: omeans
 categories: [Html, Css]
-tags: [Html, Css, animation]
+tags: [html, css, animation]
 ---
 
 [![Watch the video](https://raw.githubusercontent.com/omeans-team/public_assets/master/assets/img/project/other/animasi_loading/previ.png)](https://youtu.be/Phjy6K7Lazs){:target="_blank"} 

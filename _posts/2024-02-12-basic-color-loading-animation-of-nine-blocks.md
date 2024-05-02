@@ -4,7 +4,7 @@ title:  "Basic animation nine block"
 date:   2024-02-12 09:00:00 +0700
 author: aris_h
 categories: [Html, Css]
-tags: [Html, Css, animation]
+tags: [html, css, animation]
 ---
 
 [![Watch the video](https://raw.githubusercontent.com/omeans-team/public_assets/master/assets/img/project/other/animasi_loading/prev.png)](https://youtu.be/de0j_FO4vwE){:target="_blank"} 

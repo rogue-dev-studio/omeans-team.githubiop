@@ -1,10 +1,9 @@
 ---
-layout: post
 title:  "How To Use Icon shields.io"
 date:   2021-12-15 11:00:00 +0700
 author: aris_h
 categories: [Tutorial]
-tags: [Icon, Shieldsdotio]
+tags: [icon, shieldsdotio]
 ---
 <!--
 <a href="https://raw.githubusercontent.com/omeans-team/omeans-team/master/license.txt"><img src="https://img.shields.io/github/license/jaid/action-npm-install?style=flat-square" alt="License"/></a> <a href="https://github.com/sponsors/omeans-team"><img src="https://img.shields.io/badge/<3-Sponsor-FF45F1?style=flat-square" alt="Sponsor omeans-team"/></a>  
