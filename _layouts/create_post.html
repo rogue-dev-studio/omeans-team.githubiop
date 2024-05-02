@@ -35,7 +35,7 @@ layout: page
     
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        if ((window.location.hostname != 'localhost')||(window.location.hostname !=  http://127.0.0.1:4000)) {
+        if (window.location.hostname!== '127.0.0.1' || window.location.port!== '4000') {
             window.location.replace('{{ site.baseurl }}/');
         }
 
@@ -58,19 +58,8 @@ layout: page
             saveAs(blob, fileName);
         }
 
-        // This is a polyfill for the saveAs function, which is not supported in all browsers
         function saveAs(blob, fileName) {
             if (navigator.msSaveBlob) {
-                navigator.msSaveBlob(blob, fileName);
-            } else {
-                var link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = fileName;
-                link.click();
-            }
-        }
-        function saveAs(blob, fileName) {
-        if (navigator.msSaveBlob) {
                 navigator.msSaveBlob(blob, fileName);
             } else {
                 var link = document.createElement('a');
