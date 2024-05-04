@@ -6,6 +6,13 @@ layout: page
 {% include lang.html %}
 
 
+
+
+
+
+
+
+
 <div class="container">
     <div class="row">
         <div class="col-md-6 offset-md-3">
@@ -15,12 +22,61 @@ layout: page
                 <div class="form-group">
                     <input type="text" class="form-control" id="title_post" placeholder="Enter Title Post">
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="author_post_id">
                     <label for="author_post">Author :</label>
-                    <select class="form-control" id="author_post">
+                    <select class="form-select" id="author_post" data-placeholder="Choose anything" multiple>
                         {% assign sorted_authors = site.data.authors | sort %}
                         {% for author in sorted_authors %}
-                        <option value="{{ author[0] }}">{{ author[1].name }}</option>
+                        <option value="{{ author[0] }}" name="{{ author[1].name }}">{{ author[1].name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group" id="categories_post_id">
+                    <label for="categories_post">Categories :</label>
+                    <select class="form-select" id="categories_post" data-placeholder="Choose anything" multiple>
+                        {% assign sort_categories = site.categories | sort %}
+
+                        {% for category in sort_categories %}
+                        {% assign category_name = category | first %}
+                        {% assign posts_of_category = category | last %}
+                        {% assign first_post = posts_of_category | first %}
+
+                        {% if category_name == first_post.categories[0] %}
+                            {% assign sub_categories = '' | split: '' %}
+
+                            {% for post in posts_of_category %}
+                            {% assign second_category = post.categories[1] %}
+                            {% if second_category %}
+                                {% unless sub_categories contains second_category %}
+                                {% assign sub_categories = sub_categories | push: second_category %}
+                                {% endunless %}
+                            {% endif %}
+                            {% endfor %}
+
+                            {% assign sub_categories = sub_categories | sort %}
+                            {% assign sub_categories_size = sub_categories | size %}
+
+                            <!-- Sub-categories -->
+                            {% if sub_categories_size > 0 %}
+                                    {% for sub_category in sub_categories %}
+                                        <option value="{{ sub_category }}">{{ sub_category }}</option>
+                                    {% endfor %}
+                            {% endif %}
+
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group" id="tags_post_id">
+                    <label for="tags_post">Tags :</label>
+                    <select class="form-select" id="tags_post" data-placeholder="Choose anything" multiple>
+                        {% assign tags = '' | split: '' %}
+                        {% for t in site.tags %}
+                            {% assign tags = tags | push: t[0] %}
+                        {% endfor %}
+                        {% assign sorted_tags = tags | sort_natural %}
+                        {% for t in sorted_tags %}
+                            <option value="{{ t -}}">{{ t -}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -33,14 +89,42 @@ layout: page
         </div>
     </div>
     
+    
+
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+    //const $ = require('jquery');
+
+//const moment = require('moment');
         if (window.location.hostname!== '127.0.0.1' || window.location.port!== '4000') {
             window.location.replace('{{ site.baseurl }}/');
         }
-
+        $( '#author_post' ).select2( {
+            theme: "bootstrap-5",
+            width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
+            placeholder: $( this ).data( 'placeholder' ),
+            closeOnSelect: false,
+        } );
+        $( '#categories_post' ).select2( {
+            theme: "bootstrap-5",
+            width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
+            placeholder: $( this ).data( 'placeholder' ),
+            closeOnSelect: false,
+            tags: true
+        } );
+        $( '#tags_post' ).select2( {
+            theme: "bootstrap-5",
+            width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
+            placeholder: $( this ).data( 'placeholder' ),
+            closeOnSelect: false,
+            tags: true
+        } );
+        
         function createMarkdownFile() {
             var date = new Date();
+            
+        //const date = moment();
             var dateWZero = (date.getDate() + 1).toString().padStart(2, '0');
             var month = (date.getMonth() + 1).toString().padStart(2, '0');
             var currentTime = "{{ 'now' | date: '%H:%M:%S' }}";
@@ -63,10 +147,61 @@ layout: page
                 });
                 return;
             }
+
+            // Get the element with id "tags_post"
+            const authorPost = document.getElementById('author_post');
+            const authorPostElement = document.getElementById('author_post_id');
+            const categoriesPostElement = document.getElementById('categories_post_id');
+            const tagsPostElement = document.getElementById('tags_post_id');
+
+            // Get all elements with class "select2-selection__choice"
+            const author_elements = authorPostElement.querySelectorAll('.select2-selection__choice');
+            const categories_elements = categoriesPostElement.querySelectorAll('.select2-selection__choice');
+            const tags_elements = tagsPostElement.querySelectorAll('.select2-selection__choice');
+
+            // Create an array to store the title data
+            const author_value = [];
+            const categories_value = [];
+            const tags_value = [];
+            const author_titles = [];
+            //const titles = [];
+
+            // Loop through each element and extract the title attribute
+            //author_elements.forEach((element) => {
+            //    author_value.push(element.getAttribute('title'));
+            //});
+            author_elements.forEach((element) => {
+            const author_title = element.getAttribute('title');
+            const authors = {
+                {% assign sorted_authors = site.data.authors | sort %}
+                {% for author in sorted_authors %}
+                '{{ author[1].name }}': '{{ author[0] }}',
+                {% endfor %}
+            };
+
+            const author_id = Object.keys(authors).find((key) => key === author_title);
+            if (author_id) {
+                author_value.push(authors[author_id]);
+            } else {
+                author_value.push(author_title);
+            }
+            });
+            categories_elements.forEach((element) => {
+                categories_value.push(element.getAttribute('title'));
+            });
+            tags_elements.forEach((element) => {
+                tags_value.push(element.getAttribute('title'));
+            });
+
+            // Log the extracted title data
+            //console.log(titles); // Output: ["css", "getting started", "html"]
+            //console.log(categories_value); // Output: ["css", "getting started", "html"]
+            //console.log(categories_value); // Output: ["css", "getting started", "html"]
+            
             var fullDateContent = `${date.getFullYear()}-${month}-${dateWZero} ${currentTime} ${timezoneOffsetFormatted}`;
             var fileNameContent = `${date.getFullYear()}-${month}-${date.getDate()}-${title_postContent}.md`;
-            var author_post = document.getElementById('author_post').value.replace(/\s+/g, '_');
-            var markdownContent = '---\n title: "' + title_postContent + '"\n date: ' + fullDateContent  + '\n author: ' + author_post + '\n ---\n' + document.getElementById('markdownContent').value;
+            //var author_post = document.getElementById('author_post').value.replace(/\s+/g, '_');
+            var markdownContent = '---\n title: "' + title_postContent + '"\n date: ' + fullDateContent  + '\n author: [' + author_value + ']\n categories: ['+categories_value+']\n tags: ['+tags_value+']\n---\n' + document.getElementById('markdownContent').value;
             //ISI CONTENT END
 
             
