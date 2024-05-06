@@ -81,10 +81,11 @@ layout: page
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="markdownContent">Content Markdown :</label>
-                    <textarea class="form-control" id="markdownContent" placeholder="Enter markdown content here..."></textarea>
+                    <label for="editor">Content Markdown :</label>
+                    <textarea class="editor" id="editor"></textarea>
                 </div>
-                <button type="button" class="btn btn-primary btn-block" onclick="createMarkdownFile()">Create Markdown File</button>
+                <button type="button" class="btn btn-primary btn-block" onclick="createMarkdownFile(editor)">Create Markdown File</button>
+                <!-- button type="button" class="btn btn-primary btn-block" onclick="createMarkdownFile()">Create Markdown File !-->
             </form>
         </div>
     </div>
@@ -92,8 +93,43 @@ layout: page
     
 
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+
+//ClassicEditor
+  //.create( document.querySelector( '#editor' ) )
+  //.then( editor => {
+   // console.log( 'Editor was initialized', editor );
+  //} )
+ // .catch( error => {
+ //   console.error( 'Error initializing the editor: ', error );
+ // } );
+
+                // Replace the <textarea id="editor1"> with a CKEditor 4
+                // instance, using default configuration.
+                //CKEDITOR.replace( 'editor' );
+
+        CKEDITOR.replace( 'editor' );
+
+
+
+
+//ClassicEditor
+  // .create( document.querySelector( '#editor' ), {
+  //      //plugins: [ Markdown, /* other plugins */ ],
+        //...
+  //  } )
+  // .then(  e => {
+  //    console.log( 'Editor was initialized', e );
+  //    editor = e; // Assign the editor instance to a global variable
+ //   } )
+  // .catch( error => {
+  //      console.error( error );
+  //  } );
+
+
+
+
+
     //const $ = require('jquery');
 
 //const moment = require('moment');
@@ -121,9 +157,13 @@ layout: page
             tags: true
         } );
         
-        function createMarkdownFile() {
+        function createMarkdownFile(editor) {
             var date = new Date();
-            
+
+    var editorInstance = CKEDITOR.instances.editor;
+
+    var markdownContent = editorInstance.getData();
+
         //const date = moment();
             var dateWZero = (date.getDate() + 1).toString().padStart(2, '0');
             var month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -201,13 +241,13 @@ layout: page
             var fullDateContent = `${date.getFullYear()}-${month}-${dateWZero} ${currentTime} ${timezoneOffsetFormatted}`;
             var fileNameContent = `${date.getFullYear()}-${month}-${date.getDate()}-${title_postContent}.md`;
             //var author_post = document.getElementById('author_post').value.replace(/\s+/g, '_');
-            var markdownContent = '---\n title: "' + title_postContent + '"\n date: ' + fullDateContent  + '\n author: [' + author_value + ']\n categories: ['+categories_value+']\n tags: ['+tags_value+']\n---\n' + document.getElementById('markdownContent').value;
+            var allMarkdownContent = '---\n title: "' + title_postContent + '"\n date: ' + fullDateContent  + '\n author: [' + author_value + ']\n categories: ['+categories_value+']\n tags: ['+tags_value+']\n---\n' + markdownContent;
             //ISI CONTENT END
 
             
             var title_post = document.getElementById('title_post').value.replace(/\s+/g, '-');
             var fileName = `${date.getFullYear()}-${month}-${dateWZero}-${title_post.toLowerCase()}.md`;
-            var blob = new Blob([markdownContent], {type: 'text/markdown'});
+            var blob = new Blob([allMarkdownContent], {type: 'text/markdown'});
             saveAs(blob, fileName);
         }
 

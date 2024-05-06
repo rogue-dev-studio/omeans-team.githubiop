@@ -41,3 +41,9 @@ clipboard:
 
 mathjax:
   js: /assets/lib/mathjax/tex-chtml.js
+
+sweetalert2:
+  js: /assets/lib/sweetalert2/sweetalert2.all.min.js
+  
+ckeditor_4.4.7_standard:
+  js: /assets/lib/ckeditor_4.4.7_standard/ckeditor.js

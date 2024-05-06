@@ -27,3 +27,25 @@ title: Cek Directory
 <p>Or, create a new post using Jekyll's built-in functionality...</p>
 
 <a href="{{ site.baseurl }}/posts/new">Create a new post</a>
+
+untuk inputan tanggal
+
+```
+ggg
+```
+```
+<   input
+  type="datetime-local"
+  id="meeting-time"
+  name="meeting-time" /  >
+
+const now = new Date();
+const threeYearsAgo = new Date(now.getFullYear() - 3, now.getMonth(), now.getDate());
+const threeYearsFromNow = new Date(now.getFullYear() + 3, now.getMonth(), now.getDate());
+
+const inputField = document.getElementById('meeting-time');
+
+inputField.min = threeYearsAgo.toISOString().slice(0, 16);
+inputField.max = threeYearsFromNow.toISOString().slice(0, 16);
+inputField.value = now.toISOString().slice(0, 16);
+```

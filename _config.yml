@@ -227,3 +227,9 @@ jekyll-archives:
   permalinks:
     tag: /tags/:name/
     category: /categories/:name/
+
+ckeditor_basic_setup:
+  # ...
+  extraPlugins: "markdown"
+  removePlugins: "bidi,image,flash,forms,div,magicline,scayt,tabletools,tableselection,contextmenu,menubutton,button,blockquote,clipboard,colordialog,dialog,div,elementspath,enterkey,entities,floatingspace,font,format,horizontalrule,htmlwriter,indent,maximize,newpage,pagebreak,pastefromword,preview,print,removeformat,save,selectall,showblocks,showborders,sourcearea,specialchar,stylescombo,subscript,superscript,toolbar,undo,widget"
+  removeButtons: "Save,NewPage,Preview,Print,Templates,Cut,Copy,Paste,PasteText,PasteFromWord,Find,Replace,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Strike,Subscript,Superscript,CopyFormatting,RemoveFormat,Outdent,Indent,CreateDiv,Blockquote,Image,Maximize,ShowBlocks,About,Font,FontSize,TextColor,BGColor,Source,BidiLtr,BidiRtl,Language,Table,TableTool,ShowTableBorders,EditTable,FindAndReplace,SelectAll,Cell,Row,Column,DeleteTable,PasteTable,CellProperties,RowProperties,ColumnProperties,TableProperties,ImageProperties,FlashProperties,Link,Unlink,Anchor,SpecialChar,PageBreak,Iframe,Maximize,ShowBlocks,About,Save,NewPage,Preview,Print,Templates,Cut,Copy,Paste,PasteText,PasteFromWord,Find,Replace,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Styles,Format,Font,FontSize,TextColor,BGColor,Source,BidiLtr,BidiRtl,Language,Table,TableTool,ShowTableBorders,EditTable,FindAndReplace,SelectAll,Cell,Row,Column,DeleteTable,PasteTable,CellProperties,RowProperties,ColumnProperties,TableProperties,ImageProperties,FlashProperties,Link,Unlink,Anchor,SpecialChar,PageBreak,Iframe,Maximize,ShowBlocks,About"

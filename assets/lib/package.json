@@ -8,6 +8,7 @@
     "lazysizes": "^5.3.2",
     "mermaid": "^10.8.0",
     "simple-jekyll-search": "^1.10.0",
+    "sweetalert2": "^11.10.8",
     "tocbot": "^4.25.0"
   }
 }

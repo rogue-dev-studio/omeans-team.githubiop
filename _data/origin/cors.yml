@@ -54,3 +54,6 @@ clipboard:
 
 mathjax:
   js: https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js
+
+# sweetalert2:
+#   js: https://raw.githubusercontent.com/omeans-team/public_assets/master/sweetalert2.all.min.js
